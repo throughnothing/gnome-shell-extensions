@@ -1,0 +1,3 @@
+This extension makes alt+tab behave more like alt+tab in os X.  It is completely application based, and switching to an application will bring all of its windows forward.  Currently (due to lack of signal introspection), this plugin requires a simple one line change in the mainline gnome-shell code.  My branch of gnome-shell will wok fine with this extension.
+
+To use extensions, just put the extension directory into ~/.config/gnome-shell/extensions/ and restart gnome-shell.
