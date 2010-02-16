@@ -10,9 +10,11 @@ const Pango = imports.gi.Pango;
 const Shell = imports.gi.Shell;
 const Signals = imports.signals;
 const St = imports.gi.St;
+const Tweener = imports.ui.tweener;
 
 const Main = imports.ui.main;
 
+const FADE_TIME = 0.13;
 const POPUP_ARROW_COLOR = new Clutter.Color();
 POPUP_ARROW_COLOR.from_pixel(0xffffffff);
 const POPUP_UNFOCUSED_ARROW_COLOR = new Clutter.Color();
@@ -219,12 +221,22 @@ AltTabPopupCustom.prototype = {
 				Main.activateWindow(app.cachedWindows[i]);
 			}
 		}
+
+
         this.destroy();
     },
 
     destroy : function() {
-        this.actor.destroy();
-    },
+		global.logError('blah');
+		this.actor.opacity = 255;
+        Tweener.addTween(this.actor,
+                        { opacity: 0,
+                          time: FADE_TIME,
+                          transition: "linear",
+						  onComplete: Lang.bind(this, function() {
+							this.actor.destroy(); })
+						  });
+	  },
 
     _onDestroy : function() {
         if (this._haveModal)
