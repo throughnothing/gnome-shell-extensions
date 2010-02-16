@@ -14,7 +14,7 @@ const Tweener = imports.ui.tweener;
 
 const Main = imports.ui.main;
 
-const FADE_TIME = 0.13;
+const FADE_TIME = 0.1;
 const POPUP_ARROW_COLOR = new Clutter.Color();
 POPUP_ARROW_COLOR.from_pixel(0xffffffff);
 const POPUP_UNFOCUSED_ARROW_COLOR = new Clutter.Color();
@@ -295,7 +295,7 @@ function SwitcherList(squareItems) {
 
 SwitcherList.prototype = {
     _init : function(squareItems) {
-        this.actor = new St.Bin({ style_class: 'switcher-list' });
+        this.actor = new St.Bin({ style_class: 'switcher-list-tn' });
 
         // Here we use a GenericContainer so that we can force all the
         // children except the separator to have the same width.
@@ -468,7 +468,7 @@ AppIcon.prototype = {
                                          vertical: true });
         this._icon = this.app.create_icon_texture(POPUP_APPICON_SIZE);
         this.actor.add(this._icon, { x_fill: false, y_fill: false } );
-        this._label = new St.Label({ text: this.app.get_name() });
+        this._label = new St.Label({ style_class: "app-name", text: this.app.get_name() });
         this.actor.add(this._label, { x_fill: false });
     }
 }
@@ -516,22 +516,6 @@ AppSwitcher.prototype = {
     _allocate: function (actor, box, flags) {
         // Allocate the main list items
         SwitcherList.prototype._allocate.call(this, actor, box, flags);
-
-		/*
-        let arrowHeight = Math.floor(this.actor.get_theme_node().get_padding(St.Side.BOTTOM) / 3);
-        let arrowWidth = arrowHeight * 2;
-
-        // Now allocate each arrow underneath its item
-        let childBox = new Clutter.ActorBox();
-        for (let i = 0; i < this._items.length; i++) {
-            let itemBox = this._items[i].allocation;
-            childBox.x1 = Math.floor(itemBox.x1 + (itemBox.x2 - itemBox.x1 - arrowWidth) / 2);
-            childBox.x2 = childBox.x1 + arrowWidth;
-            childBox.y1 = itemBox.y2 + arrowHeight;
-            childBox.y2 = childBox.y1 + arrowHeight;
-            this._arrows[i].allocate(childBox, flags);
-        }
-		//*/
     },
 
     _addIcon : function(appIcon) {

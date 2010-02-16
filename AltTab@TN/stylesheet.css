@@ -1,8 +1,46 @@
-/* Example stylesheet */
-.helloworld-label {
-    font-size: 36px;
-    font-weight: bold;
-    color: #ffffff;
-    background-color: rgba(10,10,10,0.7);
-    border-radius: 5px;
+/* App Switcher */
+.switcher-list-tn {
+    background: rgba(40,40,40,0.5);
+    /*border: 1px solid rgba(128,128,128,0.40);*/
+    border-radius: 28px;
+    padding: 15px;
+
+    font: 12px sans-serif;
+    color: white;
+}
+
+.switcher-list-tn .item-box {
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.switcher-list-tn .thumbnail-box {
+    padding: 2px;
+    spacing: 4px;
+}
+
+.switcher-list-tn .thumbnail {
+    width:  256px;
+    height: 256px;
+}
+
+.switcher-list-tn .outlined-item-box {
+    padding: 6px;
+    border: 2px solid rgba(85,85,85,1.0);
+    border-radius: 4px;
+}
+
+.switcher-list-tn .selected-item-box {
+    padding: 5px;
+    border-radius: 15px;
+    background: rgba(40,40,40,0.9);
+    border: 2px solid rgba(290,290,290,1.0);
+}
+
+.switcher-list-tn .separator {
+    width: 1px;
+    background: rgba(255,255,255,0.4);
+}
+.switcher-list-tn .app-name {
+	font-weight: bold;
 }
