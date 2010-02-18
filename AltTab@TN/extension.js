@@ -14,7 +14,7 @@ const Tweener = imports.ui.tweener;
 
 const Main = imports.ui.main;
 
-const FADE_TIME = 0.1;
+const FADE_TIME = 0.05;
 const POPUP_ARROW_COLOR = new Clutter.Color();
 POPUP_ARROW_COLOR.from_pixel(0xffffffff);
 const POPUP_UNFOCUSED_ARROW_COLOR = new Clutter.Color();
@@ -88,7 +88,7 @@ AltTabPopupCustom.prototype = {
 
         // Make the initial selection
         if (!backward) {
-			this._select(1);
+			this._select(this._nextApp());
         } else if (backward) {
             this._select(this._appIcons.length - 1);
         } 
@@ -467,7 +467,10 @@ AppIcon.prototype = {
         this.actor = new St.BoxLayout({ style_class: "alt-tab-app",
                                          vertical: true });
         this._icon = this.app.create_icon_texture(POPUP_APPICON_SIZE);
-        this.actor.add(this._icon, { x_fill: false, y_fill: false } );
+        let iconBin = new St.Bin({height: POPUP_APPICON_SIZE, width: POPUP_APPICON_SIZE});
+        iconBin.child = this._icon;
+
+        this.actor.add(iconBin, { x_fill: false, y_fill: false } );
         this._label = new St.Label({ style_class: "app-name", text: this.app.get_name() });
         this.actor.add(this._label, { x_fill: false });
     }
