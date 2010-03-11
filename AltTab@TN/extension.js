@@ -88,7 +88,8 @@ AltTabPopupCustom.prototype = {
 
         // Make the initial selection
         if (!backward) {
-			this._select(this._nextApp());
+			//this._select(this._nextApp());
+			this._select(1);
         } else if (backward) {
             this._select(this._appIcons.length - 1);
         } 
