@@ -175,9 +175,16 @@ AltTabPopupCustom.prototype = {
         // !mouseActive) activate the first window of the clicked-on
         // app.
 
-        for (let i = this._appIcons[n].cachedWindows.length - 1; i >= 0; i--) {
-			Main.activateWindow(this._appIcons[n].cachedWindows[i]);
-		}//*/
+        for (let i = app.cachedWindows.length - 1; i >= 0; i--) {
+			if(i != this._currentWindow){
+				if (app.cachedWindows[i].get_workspace() == activeWorkspace){
+					if(!app.cachedWindows[i].is_hidden())
+						Main.activateWindow(app.cachedWindows[i]);
+				}
+			} else {
+				Main.activateWindow(app.cachedWindows[i]);
+			}
+		}
         this.destroy();
     },
 
@@ -227,7 +234,6 @@ AltTabPopupCustom.prototype = {
     },
 
     destroy : function() {
-		global.logError('blah');
 		this.actor.opacity = 255;
         Tweener.addTween(this.actor,
                         { opacity: 0,
