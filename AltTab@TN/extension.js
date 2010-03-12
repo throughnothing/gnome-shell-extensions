@@ -87,12 +87,17 @@ AltTabPopupCustom.prototype = {
         this._appIcons = this._appSwitcher.icons;
 
         // Make the initial selection
-        if (!backward) {
-			//this._select(this._nextApp());
-			this._select(1);
+        if (this._appIcons.length == 1) {
+            if (!backward && this._appIcons[0].cachedWindows.length > 1) {
+                // For compatibility with the multi-app case below
+                this._select(0, 1, true);
+            } else
+                this._select(0);
         } else if (backward) {
             this._select(this._appIcons.length - 1);
-        } 
+        } else {
+                this._select(1);
+        }
 
         // There's a race condition; if the user released Alt before
         // we got the grab, then we won't be notified. (See
@@ -464,17 +469,17 @@ SwitcherList.prototype = {
 
 Signals.addSignalMethods(SwitcherList.prototype);
 
-function AppIcon(app) {
-    this._init(app);
+function AppIcon(app,size) {
+    this._init(app,size);
 }
 
 AppIcon.prototype = {
-    _init: function(app) {
+    _init: function(app,size) {
         this.app = app;
         this.actor = new St.BoxLayout({ style_class: "alt-tab-app",
                                          vertical: true });
-        this._icon = this.app.create_icon_texture(POPUP_APPICON_SIZE);
-        let iconBin = new St.Bin({height: POPUP_APPICON_SIZE, width: POPUP_APPICON_SIZE});
+        this._icon = this.app.create_icon_texture(size);
+        let iconBin = new St.Bin({height: size, width: size});
         iconBin.child = this._icon;
 
         this.actor.add(iconBin, { x_fill: false, y_fill: false } );
@@ -497,8 +502,15 @@ AppSwitcher.prototype = {
         let activeWorkspace = global.screen.get_active_workspace();
         let workspaceIcons = [];
         let otherIcons = [];
+
+		let size = POPUP_APPICON_SIZE;
+		width = (apps.length*(size + 16) + 30)
+		while ((apps.length*(size + 42) + 30) > global.screen_width){
+			size = size - 5;
+		}
+
         for (let i = 0; i < apps.length; i++) {
-            let appIcon = new AppIcon(apps[i]);
+            let appIcon = new AppIcon(apps[i],size);
             // Cache the window list now; we don't handle dynamic changes here,
             // and we don't want to be continually retrieving it
 			appIcon.cachedWindows = appIcon.app.get_windows();
@@ -557,7 +569,7 @@ function _startAppSwitcher(shellwm, binding, window, backwards) {
 // Put your extension initialization code here
 function main() {
     let shellwm = global.window_manager;
-    shellwm.disconnect(Main.wm._switchWindowsId);
+	Main.wm._disconnectAppSwitcher();
     shellwm.connect('keybinding::switch_windows', Lang.bind(this, _startAppSwitcher));
 
 }
