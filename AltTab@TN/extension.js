@@ -219,11 +219,6 @@ AltTabPopupCustom.prototype = {
         let app = this._appIcons[this._currentApp];
         let activeWorkspace = global.screen.get_active_workspace();
 
-		// Make sure all windows are sorted properly
-        /*app.cachedWindows.sort(function(w1, w2) {
-            return w2.get_user_time() - w1.get_user_time();
-        });*/
-
         for (let i = app.cachedWindows.length - 1; i >= 0; i--) {
 			if(i != this._currentWindow){
 				if (app.cachedWindows[i].get_workspace() == activeWorkspace){
@@ -234,8 +229,6 @@ AltTabPopupCustom.prototype = {
 				Main.activateWindow(app.cachedWindows[i]);
 			}
 		}
-
-
         this.destroy();
     },
 
