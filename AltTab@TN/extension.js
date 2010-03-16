@@ -561,8 +561,5 @@ function _startAppSwitcher(shellwm, binding, window, backwards) {
     
 // Put your extension initialization code here
 function main() {
-    let shellwm = global.window_manager;
-	Main.wm._disconnectAppSwitcher();
-    shellwm.connect('keybinding::switch_windows', Lang.bind(this, _startAppSwitcher));
-
+	Main.wm.setKeybindingHandler('switch_windows',Lang.bind(this, _startAppSwitcher));
 }
